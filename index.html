@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Swaadhaaya — a personal study space for classical Ayurvedic texts.">
+  <title>Swaadhaaya</title>
+  <style>
+    :root{
+      --paper:#f5f0e6;
+      --paper-2:#fbf8f1;
+      --ink:#2d4039;
+      --green:#285f50;
+      --sage:#dfe9df;
+      --line:#ccd8cf;
+      --gold:#b78b49;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%}
+    body{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%,rgba(40,95,80,.08),transparent 34%),
+        radial-gradient(circle at 90% 85%,rgba(183,139,73,.09),transparent 30%),
+        linear-gradient(180deg,var(--paper-2),var(--paper));
+      font-family:Georgia,"Times New Roman",serif;
+    }
+    main{
+      width:min(760px,100%);
+      padding:clamp(32px,7vw,72px);
+      border:1px solid var(--line);
+      border-radius:28px;
+      background:rgba(255,253,248,.86);
+      box-shadow:0 24px 70px rgba(43,61,53,.08);
+      text-align:center;
+    }
+    .mark{
+      width:64px;height:64px;margin:0 auto 22px;
+      display:grid;place-items:center;
+      border-radius:50%;
+      background:var(--sage);
+      color:var(--green);
+      font-size:1.65rem;
+      border:1px solid #bfd0c5;
+    }
+    h1{
+      margin:0;
+      color:var(--green);
+      font-size:clamp(2.7rem,8vw,5rem);
+      line-height:1;
+      letter-spacing:-.04em;
+    }
+    .tagline{
+      margin:18px auto 0;
+      color:#617069;
+      font-size:clamp(1.05rem,2.4vw,1.35rem);
+      line-height:1.65;
+      max-width:590px;
+    }
+    .rule{
+      width:72px;height:2px;margin:30px auto;
+      background:var(--gold);
+      opacity:.75;
+    }
+    .status{
+      margin:0;
+      color:#6d7873;
+      font:700 .75rem/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark" aria-hidden="true">ॐ</div>
+    <h1>Swaadhaaya</h1>
+    <p class="tagline">A personal study space for exploring classical Ayurvedic texts through reading, reflection, and chanting.</p>
+    <div class="rule" aria-hidden="true"></div>
+    <p class="status">Site in development</p>
+  </main>
+</body>
+</html>
