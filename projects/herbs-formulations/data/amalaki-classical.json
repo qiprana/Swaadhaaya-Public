@@ -1,0 +1,375 @@
+{
+  "version": "amalaki.classical-ledger.v1",
+  "plant_group_id": "plant-amalaki",
+  "review_policy": "Transcribed electronic root texts are pending critical-edition review; pointer entries are NOT verified verse transcriptions. References may concern the plant, its group, fresh juice, dried fruit, or a formula; never imply they all describe the same preparation.",
+  "reviewed_at": "2026-11-24",
+  "source_survey_complete": false,
+  "sources": [
+    {
+      "id": "ss-su-46-143",
+      "work": "Suśruta Saṃhitā",
+      "group": "samhita",
+      "place": "Sūtrasthāna 46.143",
+      "description": "Standalone fruit properties: five rasas, cakṣuṣya, tridoṣa action and vṛṣya.",
+      "status": "root_text_visible",
+      "source_url": "https://www.vedicsamhita.in/ayurveda/susruta/1/46?lang=en",
+      "scope": "fruit"
+    },
+    {
+      "id": "ss-su-38-60-61",
+      "work": "Suśruta Saṃhitā",
+      "group": "samhita",
+      "place": "Sūtrasthāna 38.60–61",
+      "description": "Āmalakyādi gaṇa lists Amalaki with Haritaki, Pippali and Chitraka; dīpana is described for the group, not asserted as a standalone effect by this verse.",
+      "status": "root_text_visible",
+      "source_url": "https://www.ayanaayurveda.com/learn/classical-texts/sushruta-samhita/sutrasthanam/dravyasamgrahaniyadhyayah/?commentary=show",
+      "scope": "ingredient group"
+    },
+    {
+      "id": "caraka-ci-1",
+      "work": "Caraka Saṃhitā",
+      "group": "samhita",
+      "place": "Cikitsāsthāna 1, Abhayāmalakīya Rasāyana Pāda",
+      "description": "Āmalakī-centered rasāyana preparations; passage details and preparation variants must be linked individually.",
+      "status": "root_text_located",
+      "source_url": "https://gretil.sub.uni-goettingen.de/gretil/1_sanskr/6_sastra/7_ayur/caraka_u.htm",
+      "scope": "formulations"
+    },
+    {
+      "id": "caraka-su-4",
+      "work": "Caraka Saṃhitā",
+      "group": "samhita",
+      "place": "Sūtrasthāna 4.9 (various mahākaṣāya groups)",
+      "description": "Indexed under several classical drug groups, including Kuṣṭhaghna, Kāsa-hara, Jvarahara and Vayasthāpana; validate each group location.",
+      "status": "cross_reference_index",
+      "source_url": "https://www.carakasamhitaonline.com/index.php?title=Amalaki",
+      "scope": "ingredient groups"
+    },
+    {
+      "id": "ah-ut-39",
+      "work": "Aṣṭāṅga Hṛdaya",
+      "group": "samhita",
+      "place": "Uttarasthāna 39.15–18; 39.60",
+      "description": "Indexed in rejuvenative formulations, including a Harītakī–Dhātrī linctus, and a list of rejuvenative substances. Verify edition before transcription.",
+      "status": "cross_reference_index",
+      "source_url": "https://www.vedicsamhita.in/ayurveda/nighantu/amalaki",
+      "scope": "formulations and rasāyana"
+    },
+    {
+      "id": "ah-ci-14",
+      "work": "Aṣṭāṅga Hṛdaya",
+      "group": "samhita",
+      "place": "Cikitsāsthāna 14.75 (indexed)",
+      "description": "Dhātrī listed in dietary regimen for pitta-gulma; verse placement to be checked in the root text.",
+      "status": "cross_reference_index",
+      "source_url": "https://www.vedicsamhita.in/ayurveda/nighantu/amalaki",
+      "scope": "dietary use"
+    },
+    {
+      "id": "as-ci-1",
+      "work": "Aṣṭāṅga Saṅgraha",
+      "group": "samhita",
+      "place": "Cikitsāsthāna 1.59–62 (indexed)",
+      "description": "Dhātrī in a compound decoction; group use does not prove an individual āmapācana property.",
+      "status": "cross_reference_index",
+      "source_url": "https://www.vedicsamhita.in/ayurveda/nighantu/amalaki",
+      "scope": "compound formula"
+    },
+    {
+      "id": "bp-haritakyadi",
+      "work": "Bhāvaprakāśa Nighaṇṭu",
+      "group": "nighantu",
+      "place": "Harītakyādi varga, Amalaki passage: 38–40 in SanskritDocuments; 36–38 in NIIMH index",
+      "description": "Synonyms, rasāyana properties, raktapitta and prameha context, and three-doṣa description. Numbering/textual variants must be reconciled.",
+      "status": "root_text_visible_edition_mismatch",
+      "source_url": "https://sanskritdocuments.org/~sanskrit/doc_trial/fortransfer/bhAvaprakAshanighaNTu01_sa.html",
+      "alternate_url": "https://nighantu.ageayurveda.com/bhavaprakasha/haritakyadi-varga/",
+      "scope": "herb monograph"
+    },
+    {
+      "id": "rn-11-156-159",
+      "work": "Rāja Nighaṇṭu",
+      "group": "nighantu",
+      "place": "Āmrādi varga 11.156–159 (electronic index)",
+      "description": "Names, rasa, śīta, laghu, rasāyana and traditional indications; text extracted from a curated electronic witness, Sanskrit review pending.",
+      "status": "electronic_witness_needs_review",
+      "source_url": "https://www.vedicsamhita.in/ayurveda/nighantu/amalaki",
+      "scope": "herb monograph"
+    },
+    {
+      "id": "dhn-guducyadi",
+      "work": "Dhanvantari Nighaṇṭu",
+      "group": "nighantu",
+      "place": "Guḍūcyādi varga (secondary literature lead)",
+      "description": "Reported synonyms and properties; exact entry verse and published edition not independently checked.",
+      "status": "secondary_lead_only",
+      "source_url": "https://paperzz.com/doc/8484115/amalaki--emblica-officinalis-geartn-",
+      "scope": "candidate index"
+    },
+    {
+      "id": "kn-aushadhi",
+      "work": "Kaiyadeva Nighaṇṭu",
+      "group": "nighantu",
+      "place": "Auṣadhi varga (secondary literature lead)",
+      "description": "Reported synonym entry; exact verse text needs independent source collation.",
+      "status": "secondary_lead_only",
+      "source_url": "https://www.jahm.co.in/index.php/jahm/article/download/1184/769/2530",
+      "scope": "candidate index"
+    },
+    {
+      "id": "mn-abhayadi",
+      "work": "Madanapāla Nighaṇṭu",
+      "group": "nighantu",
+      "place": "Abhayādi varga (secondary literature lead)",
+      "description": "Reported Amalaki entry; original Sanskrit edition/location not yet independently collated.",
+      "status": "secondary_lead_only",
+      "source_url": "https://www.jahm.co.in/index.php/jahm/article/download/1184/769/2530",
+      "scope": "candidate index"
+    }
+  ],
+  "verses": [
+    {
+      "id": "ss-su-46-143",
+      "title": "Qualities of Amalaki fruit",
+      "work": "Suśruta Saṃhitā",
+      "location": "Sūtrasthāna 46.143",
+      "source_url": "https://www.vedicsamhita.in/ayurveda/susruta/1/46?lang=en",
+      "status": "transcribed_electronic_witness_word_analysis_draft",
+      "devanagari": "अम्लं समधुरं तिक्तं कषायं कटुकं सरम् ।\nचक्षुष्यं सर्वदोषघ्नं वृष्यमामलकीफलम् ॥ १४३ ॥",
+      "iast": "amlaṃ samadhuraṃ tiktaṃ kaṣāyaṃ kaṭukaṃ saram |\ncakṣuṣyaṃ sarvadoṣaghnaṃ vṛṣyam āmalakīphalam || 143 ||",
+      "translation": "The Amalaki fruit is described as sour, sweet, bitter, astringent and pungent, with a moving (sara) property; traditionally considered beneficial for the eyes, countering the doṣas, and vṛṣya.",
+      "editorial_note": "Word segmentation and translation are study drafts. The passage concerns Amalaki fruit specifically.",
+      "word_by_word": [
+        [
+          "अम्लम्",
+          "amlam",
+          "sour"
+        ],
+        [
+          "समधुरम्",
+          "samadhuram",
+          "with sweetness / sweet as well"
+        ],
+        [
+          "तिक्तम्",
+          "tiktam",
+          "bitter"
+        ],
+        [
+          "कषायम्",
+          "kaṣāyam",
+          "astringent"
+        ],
+        [
+          "कटुकम्",
+          "kaṭukam",
+          "pungent"
+        ],
+        [
+          "सरम्",
+          "saram",
+          "moving / promoting passage"
+        ],
+        [
+          "चक्षुष्यम्",
+          "cakṣuṣyam",
+          "traditionally beneficial for vision"
+        ],
+        [
+          "सर्वदोषघ्नम्",
+          "sarvadoṣaghnam",
+          "said to counter all three doṣas"
+        ],
+        [
+          "वृष्यम्",
+          "vṛṣyam",
+          "considered vṛṣya"
+        ],
+        [
+          "आमलकीफलम्",
+          "āmalakīphalam",
+          "fruit of Amalaki"
+        ]
+      ]
+    },
+    {
+      "id": "bp-haritakyadi-40",
+      "title": "Why the fruit is described as tridoṣajit",
+      "work": "Bhāvaprakāśa Nighaṇṭu",
+      "location": "Harītakyādi varga, v.40 (SanskritDocuments numbering)",
+      "source_url": "https://sanskritdocuments.org/~sanskrit/doc_trial/fortransfer/bhAvaprakAshanighaNTu01_sa.html",
+      "status": "transcribed_electronic_witness_word_analysis_draft",
+      "devanagari": "हन्ति वातं तदम्लत्वात्पित्तं माधुर्यशैत्यतः ।\nकफं रूक्षकषायत्वात्फलं धात्र्यास्त्रिदोषजित् ॥ ४० ॥",
+      "iast": "hanti vātaṃ tad amlatvāt pittaṃ mādhuryaśaityataḥ |\nkaphaṃ rūkṣakaṣāyatvāt phalaṃ dhātryās tridoṣajit || 40 ||",
+      "translation": "The fruit is described as countering Vāta due to sourness, Pitta due to sweetness and coolness, and Kapha due to dryness and astringency; thus the fruit of Dhātrī is called tridoṣajit.",
+      "editorial_note": "Electronic verse numbering varies: the NIIMH-derived index groups Āmalakī at 36–38; SanskritDocuments numbers this as 40. Do not merge verse IDs without a source edition.",
+      "word_by_word": [
+        [
+          "हन्ति",
+          "hanti",
+          "counteracts / removes (traditional description)"
+        ],
+        [
+          "वातम्",
+          "vātam",
+          "Vāta"
+        ],
+        [
+          "तत्",
+          "tat",
+          "that (fruit)"
+        ],
+        [
+          "अम्लत्वात्",
+          "amlatvāt",
+          "because of sour taste"
+        ],
+        [
+          "पित्तम्",
+          "pittam",
+          "Pitta"
+        ],
+        [
+          "माधुर्यशैत्यतः",
+          "mādhurya-śaityataḥ",
+          "because of sweetness and coolness"
+        ],
+        [
+          "कफम्",
+          "kapham",
+          "Kapha"
+        ],
+        [
+          "रूक्षकषायत्वात्",
+          "rūkṣa-kaṣāyatvāt",
+          "because of dryness and astringency"
+        ],
+        [
+          "फलम्",
+          "phalam",
+          "fruit"
+        ],
+        [
+          "धात्र्याः",
+          "dhātryāḥ",
+          "of Dhātrī"
+        ],
+        [
+          "त्रिदोषजित्",
+          "tridoṣajit",
+          "one that overcomes the three doṣas"
+        ]
+      ]
+    },
+    {
+      "id": "rn-11-158",
+      "title": "Taste, cooling nature, and classical actions",
+      "work": "Rāja Nighaṇṭu",
+      "location": "Āmrādi varga 11.158 (electronic witness)",
+      "source_url": "https://www.vedicsamhita.in/ayurveda/nighantu/amalaki",
+      "status": "electronic_witness_word_analysis_draft",
+      "devanagari": "आमलकं कषायाम्लं मधुरं शिशिरं लघु ।\nदाहपित्तवमीमेहशोफघ्नं च रसायनम् ॥",
+      "iast": "āmalakaṃ kaṣāyāmlaṃ madhuraṃ śiśiraṃ laghu |\ndāha-pitta-vamī-meha-śopha-ghnaṃ ca rasāyanam ||",
+      "translation": "The text describes Amalaki as astringent-sour, sweet, cooling and light; traditionally credited with countering burning, Pitta, vomiting, meha and swelling, and termed rasāyana.",
+      "editorial_note": "Source is an electronic transcription/interpretive index; collate against a printed Rāja Nighaṇṭu edition before approving lexical sandhi splits.",
+      "word_by_word": [
+        [
+          "आमलकम्",
+          "āmalakam",
+          "Amalaki fruit"
+        ],
+        [
+          "कषायाम्लम्",
+          "kaṣāyāmlam",
+          "astringent and sour"
+        ],
+        [
+          "मधुरम्",
+          "madhuram",
+          "sweet"
+        ],
+        [
+          "शिशिरम्",
+          "śiśiram",
+          "cooling"
+        ],
+        [
+          "लघु",
+          "laghu",
+          "light"
+        ],
+        [
+          "दाह",
+          "dāha",
+          "burning"
+        ],
+        [
+          "पित्त",
+          "pitta",
+          "Pitta"
+        ],
+        [
+          "वमी",
+          "vamī",
+          "vomiting"
+        ],
+        [
+          "मेह",
+          "meha",
+          "meha-type urinary/metabolic conditions"
+        ],
+        [
+          "शोफघ्नम्",
+          "śophaghnam",
+          "traditionally said to counter swelling"
+        ],
+        [
+          "च",
+          "ca",
+          "and"
+        ],
+        [
+          "रसायनम्",
+          "rasāyanam",
+          "rasāyana / rejuvenative"
+        ]
+      ]
+    }
+  ],
+  "botanical": {
+    "accepted_name": "Phyllanthus emblica L.",
+    "source_url": "https://powo.science.kew.org/taxon/353838-1",
+    "workbook_synonym": "Emblica officinalis Gaertn.",
+    "evidence": "Kew POWO accepted species and homotypic synonym"
+  },
+  "photo": {
+    "status": "species_match_and_license_verified_plant_part_editorial_review_pending",
+    "url": "https://commons.wikimedia.org/wiki/Special:FilePath/Phyllanthus_emblica_221151418.jpg?width=900",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Phyllanthus_emblica_221151418.jpg",
+    "attribution": "Haneesh K M · CC0 1.0",
+    "description": "Fruit on living plant; does not depict dried medicinal material."
+  },
+  "dhatu_statements": [
+    {
+      "dhatu": "Rakta",
+      "evidence": "Workbook dried Amalaki · Circulatory category",
+      "source_text": "increases rakta dhātu",
+      "classification": "source_note_not_quantified"
+    },
+    {
+      "dhatu": "All dhātus",
+      "evidence": "Workbook dried Amalaki · Reproductive category",
+      "source_text": "good for all dhātus",
+      "classification": "general_source_note_not_specific_dhatu_actions"
+    }
+  ],
+  "agni_dipana": {
+    "value": "yes",
+    "source": "Excel: Dosha (V/P/K) + Dīpana",
+    "interpretation": "The workbook explicitly says Dīpana: Yes. This does not independently confirm Āmapācana."
+  },
+  "ama_pachana": {
+    "value": "not_documented",
+    "source": "No separate Āmapācana field/claim found in either Amalaki workbook record; do not interpret as a definite No."
+  }
+}

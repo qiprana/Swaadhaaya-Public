@@ -8,7 +8,7 @@
   const sourceNotesLabel = 'Workbook source text (unverified clinical claims)';
   const idDried = 'herb-0010-amalaki-dried';
   const idFresh = 'herb-0011-amalaki-fresh-fruit';
-  const state = {catalog:null, selectedId:idDried, notes:{}, editing:false, saveTimer:null};
+  const state = {catalog:null, selectedId:idDried, notes:{}, editing:false, saveTimer:null, research:null, sourceFilter:'all', selectedVerse:'ss-su-46-143'};
   const previewKey = new URLSearchParams(location.hash.replace(/^#/, '')).get('key');
   const backUrl = previewKey ? 'index.html#key='+encodeURIComponent(previewKey) : 'index.html';
   for(const selector of ['#backToCatalog','#crumbToCatalog','#backupLink']) $(selector).href=backUrl;
@@ -64,7 +64,12 @@
       img.src=candidate.image_url;
       img.alt='Candidate botanical photograph: '+(candidate.scientific_name||'Amalaki')+(candidate.part?', '+candidate.part:'');
       img.loading='eager';
-      img.addEventListener('error',()=>{frame.textContent='Photo unavailable · Open image source below';});
+      const placeholder=document.createElement('div');
+      placeholder.className='image-loading-card';
+      placeholder.innerHTML='<div class="image-loading-symbol" aria-hidden="true">❧</div><strong>Amalaki · Botanical photograph</strong><span>Source-identified image candidate · CC0</span><a href="'+esc(candidate.source_page||'#')+'" target="_blank" rel="noopener noreferrer">See original photo ↗</a>';
+      frame.append(placeholder);
+      img.addEventListener('load',()=>{placeholder.hidden=true;});
+      img.addEventListener('error',()=>{img.remove();placeholder.querySelector('strong').textContent='Photo is unavailable here';});
       frame.append(img);
       const status=candidate.status?.startsWith('candidate')?'Candidate · botanical review pending':'Reviewed image';
       caption.innerHTML=esc(status)+' · '+esc(candidate.author||'Photographer unknown')+' · '+esc(candidate.license||'License not confirmed')+(safeUrl(candidate.source_page)?' · <a href="'+esc(candidate.source_page)+'" target="_blank" rel="noopener noreferrer">Photo source ↗</a>':'');
@@ -77,19 +82,38 @@
     if(candidate&&safeUrl(candidate.source_page))links.push({name:'Photograph — Wikimedia Commons',url:candidate.source_page});
     $('#sourceLinks').innerHTML=links.map(l=>'<a href="'+esc(l.url)+'" target="_blank" rel="noopener noreferrer">'+esc(l.name)+'</a>').join('')||'<p>No research references yet.</p>';
   }
+  const sourceStatus=s=>({root_text_visible:['Text available','text-ready'],root_text_visible_edition_mismatch:['Text · edition check','text-ready'],root_text_located:['Root-text locator','locator'],cross_reference_index:['Indexed reference','index-only'],electronic_witness_needs_review:['Transcription · review','locator'],secondary_lead_only:['Research lead','lead']})[s]||['Research pending','lead'];
+  function renderSourceAtlas(){
+    const all=state.research?.sources||[];
+    const rows=all.filter(x=>state.sourceFilter==='all'||x.group===state.sourceFilter);
+    $('#sourceCount').textContent=rows.length+' of '+all.length+' locations';
+    $('#sourceGrid').innerHTML=rows.map(s=>{
+      const [label,klass]=sourceStatus(s.status);
+      const desc=s.description||'';
+      return '<article class="source-item '+(s.group==='samhita'?'samhita':'nighantu')+'"><div class="source-item-top"><span class="source-type">'+esc(s.group==='samhita'?'ROOT SAṂHITĀ':'NIGHAṆṬU')+'</span><span class="source-status '+klass+'">'+esc(label)+'</span></div><h3>'+esc(s.work)+'</h3><div class="source-place">'+esc(s.place)+'</div><p>'+esc(desc)+'</p><div class="source-tail"><span>'+esc(s.scope||'source reference')+'</span><a href="'+esc(s.source_url)+'" target="_blank" rel="noopener noreferrer">Inspect text ↗</a></div></article>';
+    }).join('')||'<p>No items in this source group yet.</p>';
+    document.querySelectorAll('[data-source-filter]').forEach(b=>{const active=b.dataset.sourceFilter===state.sourceFilter;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
+  }
+  function renderSnapshot(record){
+    const original=(record.karma_as_given||'').split('\n')[0];
+    const terms=original.split(',').map(x=>x.trim()).filter(Boolean);
+    $('#snapshotKarma').innerHTML=terms.map(x=>'<span>'+esc(x)+'</span>').join('');
+    $('#snapshotDhatu').innerHTML='<span>Rakta · explicitly mentioned</span><span>All dhātus · general note</span>';
+  }
   function renderVerse(record){
-    const verse=record.study?.sloka_records?.[0],locations=record.study?.classical_sources||[];
-    if(!verse){$('#verseContent').innerHTML='<p>No classical verse has been transcribed for this record yet.</p>';return;}
-    const lines=(verse.word_by_word||[]).map(w=>'<tr><td lang="sa-Deva">'+esc(w.devanagari)+'</td><td>'+esc(w.iast)+'</td><td>'+esc(w.meaning)+'</td></tr>').join('');
-    const sources='<div class="source-ref-row">'+[verse.source_url,verse.alternate_transcription_url].filter(safeUrl).map((u,i)=>'<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+(i===0?'Primary transcription':'Compare alternate witness')+' ↗</a>').join('')+'</div>';
-    const other=locations.length?'<div class="source-footnote"><strong>Source-location discrepancy:</strong> '+locations.map(l=>esc(l.work)+' '+esc(l.chapter)+' '+esc(l.verse_numbers)+' ('+esc(l.status)+')').join('; ')+'. The draft verse below is numbered '+esc(verse.verse_number_in_source)+' in its electronic witness. Edition differences need editorial review.</div>':'';
+    const verses=state.research?.verses||[];
+    if(!verses.length){$('#verseSelector').innerHTML='';$('#verseContent').innerHTML='<p>Research ledger unavailable; original verse drafts remain in the private source record.</p>';return;}
+    if(!verses.find(v=>v.id===state.selectedVerse))state.selectedVerse=verses[0].id;
+    $('#verseSelector').innerHTML=verses.map((v,i)=>'<button type="button" data-verse="'+esc(v.id)+'" class="'+(v.id===state.selectedVerse?'active':'')+'" aria-pressed="'+(v.id===state.selectedVerse?'true':'false')+'"><small>TEXT '+(i+1)+'</small><strong>'+esc(v.work)+'</strong><span>'+esc(v.location)+'</span></button>').join('');
+    const verse=verses.find(v=>v.id===state.selectedVerse);
+    const lines=(verse.word_by_word||[]).map(row=>'<tr><td lang="sa-Deva">'+esc(row[0])+'</td><td>'+esc(row[1])+'</td><td>'+esc(row[2])+'</td></tr>').join('');
     $('#verseContent').innerHTML=
-      '<div class="verse-ref"><div><strong>'+esc(verse.work)+' · '+esc(verse.section)+' · verse '+esc(verse.verse_number_in_source)+'</strong><p class="small-note">'+esc(verse.title||'')+'</p></div><span class="verse-claim">Sanskrit review pending</span></div>'+
-      '<div class="verse-script"><div class="verse-label">DEVANĀGARĪ</div><div class="dev-verse" lang="sa-Deva">'+esc(verse.devanagari)+'</div><div class="script-divider"></div><div class="verse-label">IAST TRANSLITERATION</div><div class="iast-verse">'+esc(verse.iast)+'</div></div>'+
-      '<div class="verse-explanation"><strong>Study meaning · editorial draft</strong>'+esc(verse.meaning_editorial||'Meaning to be reviewed')+'</div>'+
-      '<div class="verse-tools"><button type="button" disabled aria-label="Chanting not recorded">▶ Chanting · coming later</button><small>No recording uploaded for this śloka</small></div>'+
-      '<details class="compact-disclosure"><summary>Word-by-word meaning · '+(verse.word_by_word||[]).length+' terms <span class="disclosure-plus"></span></summary><div class="disclosure-body"><table class="word-table"><thead><tr><th scope="col">Word</th><th scope="col">IAST</th><th scope="col">Draft meaning</th></tr></thead><tbody>'+lines+'</tbody></table><p class="small-note">Word segmentation and glosses are editorial drafts, not final Sanskrit scholarship.</p></div></details>'+
-      '<details class="compact-disclosure"><summary>Source editions, transliteration and review status <span class="disclosure-plus"></span></summary><div class="disclosure-body"><p>'+esc(verse.edition_note||'')+'</p>'+sources+'<p><strong>Current status:</strong> '+esc(verse.editorial_status||'unreviewed')+'</p></div></details>'+other;
+     '<div class="verse-ref"><div><strong>'+esc(verse.work)+' · '+esc(verse.location)+'</strong><p class="small-note">'+esc(verse.title)+'</p></div><span class="verse-claim">Sanskrit review pending</span></div>'+
+     '<div class="verse-script"><div class="verse-label">ORIGINAL DEVANĀGARĪ</div><div class="dev-verse" lang="sa-Deva">'+esc(verse.devanagari)+'</div><div class="script-divider"></div><div class="verse-label">IAST TRANSLITERATION</div><div class="iast-verse">'+esc(verse.iast)+'</div></div>'+
+     '<div class="verse-explanation"><strong>Meaning from the śloka · study draft</strong><p>'+esc(verse.translation)+'</p></div>'+
+     '<div class="verse-tools"><button type="button" disabled aria-label="No chanting recording available">▷ Listen to chanting · pending</button><small>Verse ID: '+esc(verse.id)+' · audio not recorded</small></div>'+
+     '<details class="compact-disclosure"><summary>Explore word by word · '+(verse.word_by_word||[]).length+' terms <span class="disclosure-plus"></span></summary><div class="disclosure-body"><div class="word-table-wrap"><table class="word-table"><thead><tr><th>Original word</th><th>IAST</th><th>Study meaning</th></tr></thead><tbody>'+lines+'</tbody></table></div><p class="small-note">Lexical splitting and glosses are unapproved editorial drafts. Compare them with the original text before study publication.</p></div></details>'+
+     '<details class="compact-disclosure"><summary>Source witness &amp; editorial checks <span class="disclosure-plus"></span></summary><div class="disclosure-body"><p>'+esc(verse.editorial_note)+'</p><div class="source-ref-row"><a href="'+esc(verse.source_url)+'" target="_blank" rel="noopener noreferrer">Open exact electronic source ↗</a></div><p><strong>Editorial state:</strong> '+esc(verse.status)+'</p></div></details>';
   }
   function renderRecord(){
     const h=findHerb(state.selectedId);if(!h){showError('Could not find the selected Amalaki record.');return;}
@@ -100,7 +124,7 @@
       const active=button.dataset.variant===h.id;
       button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));
     }
-    $('#heroBotanical').innerHTML=esc(h.botanical?.name_as_given||'Botanical identity not verified')+' <span>— as recorded in Excel</span>';
+    $('#heroBotanical').innerHTML='Phyllanthus emblica L. <span>· accepted botanical name (Kew); Excel: '+esc(h.botanical?.name_as_given||'Not recorded')+'</span>';
     $('#rasaCards').innerHTML=[['Rasa',properties.rasa],['Guṇa',properties.guna],['Vīrya',properties.virya],['Vipāka',properties.vipaka]].map(([label,value])=>'<div class="attr-card"><span class="attr-label">'+label+'</span><span class="attr-value">'+field(value)+'</span></div>').join('');
     $('#doshaText').textContent=h.dosha_as_given||'Not recorded';
     $('#partText').textContent=h.parts?.used_as_given||'Not recorded';
@@ -118,7 +142,7 @@
     $('#asideWorkbook').textContent=(h.source?.sheet||'Workbook')+' · row '+(h.source?.excel_row||'—');
     $('#asidePart').textContent=h.parts?.used_as_given||'Not recorded';
     $('#asideConstituents').textContent=h.constituents_as_given||'Not recorded';
-    applyLinksAndPhoto(h);renderVerse(h);renderNote();
+    applyLinksAndPhoto(h);renderSnapshot(h);renderSourceAtlas();renderVerse(h);renderNote();
   }
   function renderNote(){
     const record=state.notes[state.selectedId];
@@ -144,6 +168,9 @@
     $('#pageStatus').innerHTML='<div class="error-body"><strong>Amalaki study page could not load</strong><span>'+esc(text)+'</span><span>Open your private Herbs preview link once, then return to this page. All private source records remain in the original catalog.</span><a href="'+esc(backUrl)+'">Open Herbs &amp; Formulations</a></div>';
   }
   function setupEvents(){
+    document.querySelectorAll('[data-source-filter]').forEach(button=>button.addEventListener('click',()=>{state.sourceFilter=button.dataset.sourceFilter;renderSourceAtlas();}));
+    $('#verseSelector').addEventListener('click',event=>{const b=event.target.closest('[data-verse]');if(!b)return;state.selectedVerse=b.dataset.verse;renderVerse(findHerb(state.selectedId));});
+
     document.querySelectorAll('[data-variant]').forEach(button=>button.addEventListener('click',async()=>{
       try{await finishPendingNote();state.selectedId=button.dataset.variant;renderRecord();}catch(e){$('#noteSaveStatus').textContent='Saving failed: '+e.message;}
     }));
@@ -160,7 +187,15 @@
     });
   }
   async function init(){
-    setupEvents();let cache=null;
+    setupEvents();
+    try{
+      const r=await fetch('data/amalaki-classical.json',{cache:'no-store'});
+      if(!r.ok)throw Error('Failed to load classical source ledger');
+      const research=await r.json();
+      if(research.version!=='amalaki.classical-ledger.v1'||!Array.isArray(research.sources)||!Array.isArray(research.verses))throw Error('Classical ledger version mismatch');
+      state.research=research;
+    }catch(e){console.warn('Classical source ledger not loaded',e);}
+    let cache=null;
     try{
       state.notes=await get('notes')||{};
       cache=await get('catalog');
