@@ -129,6 +129,75 @@ function events(){
  $("#exportNotes").addEventListener("click",()=>exportNotes().catch(e=>alert("Backup failed: "+e.message)));
  $("#importNotes").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{await importNotes(file);}catch(err){alert("Import failed. Check file and passphrase: "+err.message);}e.target.value="";});
 }
-async function init(){events();try{state.notes=await get("notes")||{};const c=await get("catalog");if(c)initCatalog(c);}catch(e){message("Browser storage unavailable: "+e.message);} }
+
+const ENCRYPTED_CATALOG_URL = "data/herbs-catalog.encrypted.json";
+function secretFromLocation(){
+  const fragment=location.hash.startsWith("#")?location.hash.slice(1):location.hash;
+  return new URLSearchParams(fragment).get("key");
+}
+function decodeB64Url(s){
+  if(!/^[A-Za-z0-9_-]+$/.test(s))throw new Error("Invalid preview key or encrypted catalog.");
+  const b64=s.replace(/-/g,"+").replace(/_/g,"/")+"=".repeat((4-s.length%4)%4);
+  return Uint8Array.from(atob(b64),c=>c.charCodeAt(0));
+}
+async function loadEncryptedCatalog(previewKey){
+  if(!self.crypto?.subtle)throw new Error("This browser does not support secure decryption.");
+  if(!("DecompressionStream" in self))throw new Error("This browser cannot decompress the catalog. Use a current Safari, Chrome, Edge, or Firefox version.");
+  const response=await fetch(ENCRYPTED_CATALOG_URL,{cache:"no-store"});
+  if(!response.ok)throw new Error("The published catalog could not be downloaded ("+response.status+").");
+  const payload=await response.json();
+  if(payload.format!=="swaadhaaya.encrypted-catalog.v1"||
+     payload.algorithm!=="AES-256-GCM"||payload.compression!=="gzip"||
+     payload.aad!=="Swaadhaaya:herb-catalog:v1"||
+     !Array.isArray(payload.chunks))throw new Error("Unexpected encrypted catalog format.");
+  const keyBytes=decodeB64Url(previewKey);
+  if(keyBytes.length!==32)throw new Error("The preview link has an invalid key.");
+  const key=await crypto.subtle.importKey("raw",keyBytes,{name:"AES-GCM"},false,["decrypt"]);
+  const decrypted=await crypto.subtle.decrypt({
+     name:"AES-GCM",iv:decodeB64Url(payload.nonce),
+     additionalData:new TextEncoder().encode(payload.aad),
+     tagLength:128
+   },key,decodeB64Url(payload.chunks.join("")));
+  const stream=new Blob([decrypted]).stream().pipeThrough(new DecompressionStream("gzip"));
+  const decoded=await new Response(stream).text();
+  const catalog=JSON.parse(decoded);
+  if(!validate(catalog)||catalog.herbs.length!==payload.record_count)
+    throw new Error("Decrypted catalog is not valid.");
+  return catalog;
+}
+
+async function init(){
+  events();
+  let cached=null;
+  try{
+    state.notes=await get("notes")||{};
+    cached=await get("catalog");
+    if(cached&&validate(cached)){
+      initCatalog(cached);
+      $("#catalogStatus").textContent="510 herbs ready to browse";
+      $("#catalogSub").textContent="Loaded automatically from this device. Search below to begin.";
+    }
+  }catch(e){message("Browser storage is unavailable: "+e.message);}
+  const key=secretFromLocation();
+  if(key){
+    try{
+      $("#catalogStatus").textContent="Loading all herbs…";
+      $("#catalogSub").textContent="Downloading and unlocking the encrypted Swaadhaaya catalog.";
+      const fresh=await loadEncryptedCatalog(key);
+      initCatalog(fresh);
+      $("#catalogStatus").textContent=fresh.herbs.length+" herb records ready";
+      $("#catalogSub").textContent="Automatically loaded from the encrypted catalog. Your original Excel source remains private.";
+      document.querySelector('label[for="catalogFile"]').textContent="Replace catalog (optional)";
+      try{await put("catalog",fresh);}catch(e){message("Catalog loaded, but local caching failed: "+e.message);}
+    }catch(e){
+      $("#catalogStatus").textContent=cached?"Showing locally saved catalog":"Unable to unlock catalog";
+      $("#catalogSub").textContent="The private preview link could not unlock the catalog: "+e.message+". You can also import JSON manually.";
+    }
+  }else if(!cached){
+    $("#catalogStatus").textContent="Open your private preview link";
+    $("#catalogSub").textContent="Use the Swaadhaaya preview link once on this device for automatic loading. Manual JSON import remains available.";
+  }
+}
+
 init();
 })();
