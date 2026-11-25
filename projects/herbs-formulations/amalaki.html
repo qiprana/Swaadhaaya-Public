@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Swaadhaaya study workspace for Amalaki: plant identity, Ayurvedic properties, karma, therapeutic-use source notes, classical passages and study notes.">
+  <meta name="color-scheme" content="light">
+  <title>Amalaki — Herb Study · Swaadhaaya</title>
+  <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="amalaki.css">
+  <script src="amalaki.js" defer></script>
+</head>
+<body>
+<header class="site-topbar">
+  <div class="top">
+    <a class="brand" href="../../index.html">स्वाध्याय · Swaadhaaya</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a id="backToCatalog" href="index.html">← Herbs &amp; Formulations</a>
+      <a href="../../index.html">All projects</a>
+    </nav>
+  </div>
+</header>
+<main class="amalaki-shell">
+  <div id="pageStatus" class="loading-panel" role="status" aria-live="polite">Opening Amalaki study record…</div>
+  <div id="pageContent" hidden>
+    <div class="breadcrumbs"><a id="crumbToCatalog" href="index.html">Herbs &amp; Formulations</a><span>›</span><strong>Amalaki</strong><span class="crumb-suffix">/ Herb study record</span></div>
+    <section class="hero-study" aria-label="Amalaki introduction">
+      <div class="hero-copy">
+        <div class="hero-kicker">DRAVYAGUṆA · HERB STUDY</div>
+        <h1>Āmalakī <span class="dev-name" lang="sa-Deva">आमलकी</span></h1>
+        <p class="hero-alias">Indian gooseberry <span aria-hidden="true">·</span> Amla <span aria-hidden="true">·</span> Dhātrī</p>
+        <p id="heroBotanical" class="hero-botanical">Emblica officinalis Gaertn. <span>— name in source workbook</span></p>
+        <p class="hero-summary">One plant, multiple preparations. Explore the original workbook observations alongside linked classical-text research, without losing the distinction between source evidence and editorial drafts.</p>
+        <div class="hero-pills"><span class="hero-pill">Source-preserving reference</span><span class="hero-pill soft">Classical study draft</span></div>
+        <div class="hero-links"><a href="#actions" class="hero-action">Explore properties ↓</a><a href="#classical" class="hero-secondary">Read the śloka ↗</a></div>
+      </div>
+      <div class="hero-media">
+        <div class="photo-frame" id="photoFrame"><div class="photo-placeholder">Botanical photo candidate pending</div></div>
+        <div class="photo-caption" id="photoCredit">Photograph and license information will appear here.</div>
+      </div>
+    </section>
+    <div class="record-banner"><div><span class="dot"></span><strong>Workbook record:</strong> Select the preparation you are studying</div><span id="variantMeta" class="source-line"></span></div>
+    <div class="variant-switch" role="group" aria-label="Amalaki preparation"><button type="button" class="variant-button active" data-variant="herb-0010-amalaki-dried">Dried mature fruit / pericarp</button><button type="button" class="variant-button" data-variant="herb-0011-amalaki-fresh-fruit">Fresh fruit</button></div>
+    <nav class="on-page-nav" aria-label="Jump to study section"><a href="#overview">Overview</a><a href="#actions">Karma &amp; indications</a><a href="#classical">Classical śloka</a><a href="#formulations">Formulations</a><a href="#notes">My notes</a></nav>
+    <div class="body-grid">
+      <div class="primary-column">
+        <section id="overview" class="section-card study-section">
+          <div class="section-label">01 / IDENTIFICATION &amp; PROPERTIES</div>
+          <div class="section-heading"><h2>At a glance</h2><span class="content-badge">From Excel source</span></div>
+          <p class="section-deck">Traditional Ayurvedic attributes recorded for this specific plant preparation.</p>
+          <div id="rasaCards" class="attribute-grid"></div>
+          <div class="overview-line"><div><span class="small-label">Doṣa and dīpana</span><p id="doshaText" class="preline"></p></div><div><span class="small-label">Part / preparation</span><p id="partText"></p></div></div>
+          <details class="compact-disclosure"><summary>Botanical identification, description and constituents <span class="disclosure-plus"></span></summary><div id="identityDetails" class="disclosure-body"></div></details>
+        </section>
+        <section id="actions" class="section-card study-section">
+          <div class="section-label">02 / IMPORTANT FOR LEARNING</div>
+          <div class="section-heading"><h2>Karma &amp; therapeutic uses</h2><span class="content-badge warm">Traditional claims</span></div>
+          <p class="section-deck">Read the action terms and disease/condition references separately. These are transcribed from your workbook; they have not been clinically verified.</p>
+          <div class="actions-grid">
+            <div class="action-block"><div class="action-eyebrow">KARMA · ACTIONS</div><div id="karmaTags" class="term-chips"></div><details class="compact-disclosure embedded"><summary>Full workbook karma text <span class="disclosure-plus"></span></summary><div id="karmaOriginal" class="disclosure-body preline"></div></details></div>
+            <div class="action-block condition"><div class="action-eyebrow">THERAPEUTIC USES · SOURCE TERMS</div><div id="therapyTags" class="term-chips"></div><details class="compact-disclosure embedded"><summary>Exact terminology in workbook <span class="disclosure-plus"></span></summary><div id="therapyOriginal" class="disclosure-body preline"></div></details></div>
+          </div>
+          <div class="subsection-head"><h3>Explore by body system</h3><span>Expandable source notes</span></div>
+          <div id="categoryAccordion" class="category-accordion"></div>
+        </section>
+        <section id="classical" class="section-card study-section">
+          <div class="section-label">03 / CLASSICAL TEXT STUDY</div>
+          <div class="section-heading"><h2>Śloka &amp; word-by-word study</h2><span class="content-badge amber">Review draft</span></div>
+          <p class="section-deck">Linked to the exact classical witness and kept separate from the Excel-derived therapeutic claims.</p>
+          <div id="verseContent" class="verse-content"></div>
+        </section>
+        <section id="formulations" class="section-card study-section">
+          <div class="section-label">04 / CONNECTED KNOWLEDGE</div>
+          <div class="section-heading"><h2>Formulations that mention Amalaki</h2><span class="content-badge">Source references</span></div>
+          <p class="section-deck">These are formulation names listed in the selected workbook record. Ingredient quantities and recipe membership need separate source verification.</p>
+          <div id="formulaList" class="formula-list"></div>
+        </section>
+        <section id="notes" class="section-card study-section">
+          <div class="section-label">05 / PERSONAL LEARNING</div>
+          <div class="section-heading"><h2>My study notes</h2><span class="content-badge" id="noteMode">Read mode</span></div>
+          <p class="section-deck">Private notes for this preparation are saved locally in this browser, separate from the shared reference data.</p>
+          <div class="note-toolbar"><button type="button" id="toggleEdit" class="study-button primary">Enable Edit Mode</button><span id="noteSaveStatus" class="note-save-status" aria-live="polite">Ready to read</span></div>
+          <textarea id="notesText" rows="6" disabled placeholder="Write observations, Sanskrit vocabulary, questions for your teacher, and personal source references…"></textarea>
+          <p class="small-note">Back up your notes from the <a id="backupLink" href="index.html">main Herbs &amp; Formulations page</a>. Browser storage can be cleared.</p>
+        </section>
+      </div>
+      <aside class="secondary-column" aria-label="Reference sidebar">
+        <section class="aside-card"><div class="section-label">SOURCE RECORD</div><h3>Plant identity</h3><dl class="metadata-list"><dt>Botanical name (as given)</dt><dd id="asideBotanical"></dd><dt>Workbook row</dt><dd id="asideWorkbook"></dd><dt>Plant preparation</dt><dd id="asidePart"></dd><dt>Constituents (as given)</dt><dd id="asideConstituents"></dd></dl></section>
+        <section class="aside-card"><div class="section-label">EXPANDABLE RESEARCH</div><h3>Source materials</h3><div id="sourceLinks" class="source-links"></div><p class="small-note">Linked references are not automatically imported or approved.</p></section>
+        <section class="aside-card subtle"><div class="section-label">FUTURE MEDIA</div><h3>Images &amp; chanting</h3><p>Build a photo gallery for fruit, tree, leaf and medicinal material; link chant recordings to exact verse IDs.</p><p class="small-note">Current Amalaki photograph is a candidate. No chant recording is available yet.</p></section>
+      </aside>
+    </div>
+    <footer class="study-footer">Swaadhaaya · Study reference only · Traditional uses in the workbook are not clinical recommendations</footer>
+  </div>
+</main>
+</body>
+</html>

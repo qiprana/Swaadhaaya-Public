@@ -14,6 +14,14 @@ async function remove(key){const db=await database();return new Promise((resolve
 function validate(c){return c&&c.schema_version==="herb-catalog-bundle.v1"&&Array.isArray(c.herbs)&&c.herbs.every(x=>x.id&&x.name&&x.source)&&Array.isArray(c.formulation_references);}
 function message(text){$("#backupStatus").textContent=text;}
 function initCatalog(c){
+ const queryParams=new URLSearchParams(location.search);
+ if(queryParams.has("formulation")){
+   state.tab="formulations";state.query=queryParams.get("formulation")||"";
+   $("#searchTerm").value=state.query;
+   $("[data-tab]").forEach(b=>b.classList.toggle("selected",b.dataset.tab==="formulations"));
+   $("#kindFilters").hidden=true;
+ }
+
  if(!validate(c))throw new Error("Invalid Swaadhaaya catalog format.");
  state.catalog=c;state.herbMap=new Map(c.herbs.map(r=>[r.id,r]));
  state.formMap=new Map(c.formulation_references.map(r=>[r.id,r]));
@@ -23,7 +31,7 @@ function initCatalog(c){
  $("#catalogStatus").textContent="Private catalog loaded";$("#catalogSub").textContent=c.herbs.length+" source records available on this device. Nothing was uploaded to GitHub.";
  $("#countAll").textContent=c.herbs.length;$("#countFormula").textContent=c.formulation_references.length;$("#countVariants").textContent=c.herbs.filter(h=>h.related_variants?.length).length;
  $("#stats").hidden=false;$("#browser").hidden=false;$("#forgetCatalog").disabled=false;$("#modeButton").disabled=false;
- state.selected={type:"herb",id:c.herbs[0]?.id}; render();
+ state.selected=state.tab==="formulations"?null:{type:"herb",id:c.herbs[0]?.id}; render();
 }
 function setTab(tab){state.tab=tab;state.kind="all";state.limit=48;$$("[data-tab]").forEach(b=>b.classList.toggle("selected",b.dataset.tab===tab));$$("[data-kind]").forEach(b=>b.classList.toggle("selected",b.dataset.kind==="all"));$("#kindFilters").hidden=tab!=="herbs";state.selected=null;render();}
 function select(type,id){
@@ -116,6 +124,9 @@ async function importNotes(file){
  await put("notes",state.notes);message("Encrypted backup imported and notes merged. Conflicts with identical timestamps were not overwritten.");renderDetails();
 }
 function events(){
+ const amalakiLink=$("#amalakiOpen");
+ if(amalakiLink)amalakiLink.href="amalaki.html"+location.hash;
+
  $("#catalogFile").addEventListener("change",async e=>{const file=e.target.files[0];if(!file)return;try{const c=JSON.parse(await file.text());if(!validate(c))throw Error("Use the generated catalog-bundle.json, not a single herb record.");initCatalog(c);await put("catalog",c);}catch(err){alert("Could not import catalog: "+err.message);}e.target.value="";});
  $("#forgetCatalog").addEventListener("click",async()=>{if(!confirm("Remove the private catalog from this browser? Personal notes will be kept separately."))return;await remove("catalog");state.catalog=null;state.herbMap.clear();state.formMap.clear();$("#browser").hidden=true;$("#stats").hidden=true;$("#modeButton").disabled=true;$("#forgetCatalog").disabled=true;$("#catalogStatus").textContent="No private catalog loaded";$("#catalogSub").textContent="Choose catalog-bundle.json to browse."});
  $$("[data-tab]").forEach(b=>b.addEventListener("click",()=>setTab(b.dataset.tab)));
